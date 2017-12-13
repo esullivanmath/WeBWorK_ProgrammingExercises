@@ -1,0 +1,99 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+
+
+$N = random(15000,17000,1);
+$a = random(0.8,0.9,0.1);
+$Neq = random(1,100);
+$b = $Neq * ( 1 - $a);
+$N1 = $N*$a+$b;
+$N2 = $N1*$a+$b;
+
+$per = random(1.1,4.9,.1);
+$x = random(1,25);
+
+$val = $N;
+
+while (abs($val-$Neq) > $x){
+$val = $a*$val + $b;
+}
+
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+Consider a mathematical process where we take a number, multiply it by a constant, and then add another constant.  For example, if we start with the number 500, multiply it by 1/2, then add 7, we have 257.  If again we multiply by 1/2, then add 7, we have 135.5.  If again we multiply by 1/2, then add 7, we have 74.75.
+$PAR
+Write MATLAB program that starts with the number $N, multiplies this by $a, then adds $b.  If we do this once, we get $N1.  If we do this again, we get $N2.  Have your program continue this process until we have a number that is within $x of $Neq.  What number do we end up with?  In other words, if we continue multiplying by $a and adding $b, what is the first number that we get which is less than $x away from $Neq?
+$PAR
+\{ans_rule(15)\}
+$PAR
+
+
+END_TEXT
+BEGIN_HINT
+To solve this problem you will likely need a "while-loop" which checks whether the difference between our current value and $Neq is larger than $x.
+$BR
+END_HINT
+ANS(num_cmp($val,tol=>.01));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

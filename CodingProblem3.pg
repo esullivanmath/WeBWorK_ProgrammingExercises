@@ -1,0 +1,96 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 3;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+
+
+$N = random(250,370,1);
+
+$SumSquares = 0;
+$SquareSum = 0;
+for ( $j = 1; $j <= $N; $j++) {
+    $SumSquares = $SumSquares + $j**2;
+    $SquareSum = $SquareSum + $j;
+}
+$SquareSum = $SquareSum**2;
+$D = abs($SquareSum - $SumSquares);
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+The sum of the squares of the first five natural numbers is \(1^2 + 2^2 + 3^2 + 4^2 + 5^2 = 55\). $BR
+The square of the sum of the first five natural numbers is \( (1+2+3+4+5)^2 = 225\).  $BR
+Hence, the absolute difference between the sum of the squares of the first five natural numbers and the square of the sum is \(|225-55| = 170\).
+$BR
+Write computer code (with MATLAB or other similar programming language) to find the absolute difference between the sum of the squares of the first $N natural numbers and the square of the sum.
+$BR
+Sum = \{ans_rule(15)\}
+
+
+END_TEXT
+BEGIN_HINT
+If your computer code is outputting scientific notation you might want to change the number format on your output.  For example, in MATLAB you can give the command $BR
+format long g
+$BR
+to tell MATLAB to give the answer in long decimal form.
+END_HINT
+ANS(num_cmp($D,tol=>0.5));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

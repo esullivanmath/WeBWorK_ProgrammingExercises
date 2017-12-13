@@ -1,0 +1,103 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl",
+"parserPopUp.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 5;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+$r = random(0.1,0.9,0.01);
+$b = random(0.2,2,0.1);
+$a0 = random(2,10,1);
+$N = random(50,100,1);
+$popup1 = PopUp(["?","A","b","r","n","N"],"N");
+$popup2 = PopUp(["?","A","b","r","n","N"],"A");
+$popup3 = PopUp(["?","A","b","r","n","N"],"n");
+$popup4 = PopUp(["?","A","b","r","n","N"],"A");
+
+
+
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+Consider the sequence \( a_{n+1} = $r a_n + $b\) with initial condition \( a_0 = $a0 \).  Fill in the blanks in the MATLAB code that will create a plot of this discrete sequence for \(n=0,1,2,\ldots,$N\).
+
+$PAR
+clear; clc; clf; $BR
+r = \{ans_rule(5)\}; $BR
+b = \{ans_rule(5)\}; $BR
+A = \{ans_rule(5)\}; $BR
+plot(0,A,'b*'); $BR
+hold on $BR
+N = \{ans_rule(5)\}; $BR
+for n = 1:\{ $popup1->menu() \}; $BR
+A = r * \{$popup2->menu()\}+b; $BR
+plot(\{$popup3->menu()\},\{$popup4->menu()\},'b*') $BR
+end
+
+
+END_TEXT
+ANS(num_cmp($r,tol=>0.5));
+ANS(num_cmp($b,tol=>0.5));
+ANS(num_cmp($a0,tol=>0.5));
+ANS(num_cmp($N,tol=>0.5));
+ANS( $popup1->cmp());
+ANS( $popup2->cmp());
+ANS( $popup3->cmp());
+ANS( $popup4->cmp());
+
+
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

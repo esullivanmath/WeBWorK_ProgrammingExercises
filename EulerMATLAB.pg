@@ -1,0 +1,122 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ $Test = random(100,300,1);
+
+$Y0 = 5;
+$eq1 = 0;
+$Y = $Y0;
+$r = 0.2;
+$M = 1000;
+$dt = 0.00001;
+$n = 1;
+do {
+$n = $n + 1;
+$Y = $Y + $dt * $r * $Y * ( 1 - $Y / $M);
+} until ($Y > $Test);
+$Step = $n;
+
+$mc = new_multiple_choice();
+$mc -> qa("Is the smaller of the two equilibria stable or unstable?  Use your Euler code to test your conjecture before you submit an answer.","Unstable");
+$mc -> extra("Stable");
+
+$mc2 = new_multiple_choice();
+$mc2 -> qa("Is the larger of the two equilibria stable or unstable?  Use your Euler code to test your conjecture before you submit an answer.","Stable");
+$mc2 -> extra("Unstable");
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+$PAR
+Consider the logistic differential equation $BR
+$BCENTER
+\( y'(t) = r \cdot y(t) \cdot \left( 1 - \frac{y(t)}{M} \right). \) 
+$ECENTER
+$BR
+Recall that in this equation, \(r\) is a growth rate and \(M\) is a carrying capacity.  This differential equation is especially useful when modeling populations that are growing under limited resources.  
+$PAR
+In this problem you have a few tasks. For each of these tasks take \( r= 0.2 \) and \( M = 1000 \).  $BR
+(a) Build an Euler approximation to the solution of the differential equation using \( y(0) = 5\).  You will want to do this with MATLAB because we need to use \( \Delta t = 0.00001 \) (With a time step that small you really shouldn't want to do this in Excel!). ... I'll wait for you to build the Euler approximation ... It might be useful to recall that the Euler approximation for this differential equation is $BR
+$BCENTER
+\( y_{n+1} = y_n + \Delta t \cdot r \cdot y_n \cdot \left( 1 - \frac{y_n}{M} \right) \)
+$ECENTER
+$BR
+(b) Now that you have an Euler approximation, modify your code to find the very first step number, \(n\), where \(y_n\) exceeds $Test.  
+$PAR
+Step Number = \{ans_rule(15)\}
+$PAR
+(c) There are two equilibrium values for this differential equation.  $BR
+The smallest equilibrium value is: \{ ans_rule(10) \} $BR
+The largest equilibrium value is: \{ ans_rule(10) \} $PAR
+(d) \{ $mc -> print_q() \} $BR
+\{ $mc -> print_a() \} $PAR
+(e) \{ $mc2 -> print_q() \} $BR
+\{ $mc2 -> print_a() \} $PAR
+
+
+END_TEXT
+BEGIN_HINT
+You will likely need a while loop or at least an if-then statement for this problem.
+END_HINT
+ANS(num_cmp($Step,,tol=>1.5));
+ANS(num_cmp($eq1,,tol=>0.1));
+ANS(num_cmp($M,,tol=>0.1));
+ANS( radio_cmp( $mc->correct_ans() ) );
+ANS( radio_cmp( $mc2->correct_ans() ) );
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

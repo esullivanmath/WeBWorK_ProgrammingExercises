@@ -1,0 +1,152 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"PGmatrixmacros.pl",
+"answerHints.pl",
+"parserPopUp.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 5;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+$HP = random(30,80,0.1);
+$BP = random(5,60,0.1);
+$HIC = random(40,70,1);
+$hp = $HP/100;
+$bp = $BP/100;
+$T = $hp+$bp;
+$D = ($hp*$bp) - (1-$hp)*(1-$bp);
+$L1 = ($T+sqrt($T**2 - 4*$D))/2;
+$L2 = ($T-sqrt($T**2 - 4*$D))/2;
+
+
+$N = random(50,100,1);
+$popup1 = PopUp(["?","HelenaReturn","BillingsReturn","HelenaIC","BillingsIC","1-HelenaReturn","1-BillingsReturn","1-HelenaIC","1-BillingsIC","N"],"HelenaIC");
+
+$popup2 = PopUp(["?","HelenaReturn","BillingsReturn","HelenaIC","BillingsIC","1-HelenaReturn","1-BillingsReturn","1-HelenaIC","1-BillingsIC","N"],"1-HelenaIC");
+
+$popup3 = PopUp(["?","HelenaReturn","BillingsReturn","HelenaIC","BillingsIC","1-HelenaReturn","1-BillingsReturn","1-HelenaIC","1-BillingsIC","N"],"N");
+
+$popup4 = PopUp(["?","HelenaReturn","BillingsReturn","HelenaIC","BillingsIC","1-HelenaReturn","1-BillingsReturn","1-HelenaIC","1-BillingsIC","N"],"HelenaReturn");
+
+$popup5 = PopUp(["?","HelenaReturn","BillingsReturn","HelenaIC","BillingsIC","1-HelenaReturn","1-BillingsReturn","1-HelenaIC","1-BillingsIC","N"],"1-BillingsReturn");
+
+$popup6 = PopUp(["?","HelenaReturn","BillingsReturn","HelenaIC","BillingsIC","1-HelenaReturn","1-BillingsReturn","1-HelenaIC","1-BillingsIC","N"],"1-HelenaReturn");
+
+$popup7 = PopUp(["?","HelenaReturn","BillingsReturn","HelenaIC","BillingsIC","1-HelenaReturn","1-BillingsReturn","1-HelenaIC","1-BillingsIC","N"],"BillingsReturn");
+
+$popup8=PopUp(["?","H","B"],"H");
+
+$popup9=PopUp(["?","H","B"],"B");
+
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+A Montana trucking company has a hub in Billings and a hub in Helena.  Every day trucks end the day at one of the two hubs but they don't always return to the one where they started the day.  Given several years worth of data the analyst that works for the trucking company states that a truck that starts in Billings has a $BP$PERCENT chance of ending up back in Billings at the end of the day.  A truck that starts in Helena has a $HP$PERCENT chance of returning to Helena.  Let's assume that $HIC$PERCENT of the company's truck fleet is currently in Helena.  
+$PAR
+The analyst needs a plot of the next $N day's daily distribution of trucks to present to his boss, and thankfully he has MATLAB to help him make such a plot!  He happens to have also taken a mathematical modeling class so he knows all about systems of difference equations!  He wants the points for Helena to be in red and the points for Billing to be in blue.
+
+$PAR
+Let's help him out by writing the system of difference equations. $BR
+\( H_{n+1} = \) \{ans_rule(10)\} \( H_n + \) \{ans_rule(10)\} \( B_n \) $BR
+\( B_{n+1} = \) \{ans_rule(10)\} \( H_n + \) \{ans_rule(10)\} \( B_n \)
+
+$PAR
+Now fill in the blanks in the following MATLAB code to create the necessary plot.
+$PAR
+clear; clc; clf; $BR
+HelenaReturn = \{ans_rule(10)\}; $BR
+BillingsReturn = \{ans_rule(10)\}; $BR
+HelenaIC = \{ans_rule(10)\}; $BR
+H = \{$popup1->menu()\} $BR
+B = \{$popup2->menu()\} $BR
+N = \{ans_rule(5)\}; $BR
+for n = 1:\{ $popup3->menu() \} - 1 $BR
+H(n+1) = \{$popup4->menu()\} * H(n) + \{$popup5->menu()\} * B(n); $BR
+B(n+1) = \{$popup6->menu()\} * H(n) + \{$popup7->menu()\} * B(n); $BR
+end $BR
+plot( 0:N , \{$popup8->menu()\} , 'r*' , 0:N , \{$popup9->menu()\} , 'b*' ) $BR
+
+$PAR
+Be sure that your code runs and produces a graph of the numerical solution to the system of difference equations.
+
+$PAR
+What are the two eigenvalues for the system (list from largest to smallest)? $BR
+\( \lambda_1 = \) \{ans_rule(15)\} $BR
+\( \lambda_2 = \) \{ans_rule(15)\} $BR
+
+END_TEXT
+ANS(num_cmp($HP/100));
+ANS(num_cmp(1-$BP/100));
+ANS(num_cmp(1-$HP/100));
+ANS(num_cmp($BP/100));
+
+ANS(num_cmp($HP/100));
+ANS(num_cmp($BP/100));
+ANS(num_cmp($HIC/100));
+ANS( $popup1->cmp());
+ANS( $popup2->cmp());
+ANS(num_cmp($N,tol=>0.5));
+ANS( $popup3->cmp());
+ANS( $popup4->cmp());
+ANS( $popup5->cmp());
+ANS( $popup6->cmp());
+ANS( $popup7->cmp());
+ANS( $popup8->cmp());
+ANS( $popup9->cmp());
+
+ANS(num_cmp($L1,tol=>0.01));
+ANS(num_cmp($L2,tol=>0.01));
+
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

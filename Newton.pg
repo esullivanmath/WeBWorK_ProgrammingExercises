@@ -1,0 +1,89 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+$a = random(2,9);
+$b = random(2,9);
+$c = random(2,19);
+$x0 = random(10000,20000);
+$N = random(8,15);
+
+$xn = $x0;
+
+for ( $j = 1; $j <= $N; $j++) {
+    $xn = $xn - ($a*$xn**2 + $b*$xn - $c)/(2*$a*$xn + $b);
+}
+
+
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+Write a Matlab program to apply Newton's method for root finding to the function \( f(x) = $a x^2 + $b x - $c \) starting with the number \( x_0 = $x0 \).  If we take $N steps, what value do we get for \(x_{$N}\)?
+
+$PAR
+\{ans_rule(15)\}
+$PAR
+
+
+END_TEXT
+ANS(num_cmp($xn,tol=>0.001));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

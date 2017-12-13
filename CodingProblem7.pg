@@ -1,0 +1,83 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 5;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+$MaxN = random(6,12,1);
+
+$mc1 = new_multiple_choice();
+$mc1->qa("Bob wants to make a plot in MATLAB that shows the all of the plots of \(f(x) = \sin(n x)\) for \(n=1,2,3,\ldots,$MaxN\) on the domain \( 0 \leq x \leq 2 \pi\).  Which block of MATLAB code would allow him to create this plot?" , "x=0:0.01:2*pi; $BR for n=1:$MaxN $BR f = sin(n*x); $BR plot(x,f) $BR hold on $BR end"
+);
+$mc1->extra("for n=1:$MaxN $BR f = sin(n*x); $BR plot(x,f) $BR hold on $BR end",
+"x=0:0.01:2*pi; $BR for n=1:$MaxN $BR f = sin(n*x); $BR plot(x,f) $BR end",
+"x=0:0.01:2*pi; $BR for n=1:$MaxN $BR f = sin(nx); $BR plot(x,f) $BR hold on $BR end",
+"for n=1:$MaxN $BR f = sin(n*x); $BR plot(x,f) $BR end",
+"x=0:0.01:$MaxN; $BR for n=1:2*pi $BR f = sin(n*x); $BR plot(x,f) $BR hold on $BR end",
+"x=0:0.01:$MaxN; $BR for n=1:2*pi $BR f = sin(n*x); $BR plot(x,f) $BR end",
+"x=0:0.01:$MaxN; $BR for n=1:2*pi $BR f = sin(nx); $BR plot(x,f) $BR hold on $BR end"
+);
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+\{ $mc1->print_q() \}
+$BR
+\{ $mc1->print_a() \}
+
+END_TEXT
+ANS( radio_cmp( $mc1->correct_ans() ) );
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

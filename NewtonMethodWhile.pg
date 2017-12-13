@@ -1,0 +1,138 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+$start1 = list_random(-2,1,1.5);
+if ($start1 == -2) {$ans1 = -3.04143;};
+if ($start1 == 1) {$ans1 = -0.100098;};
+if ($start1 == 1.5) {$ans1 = -6.3833;};
+
+$start2 = list_random(-2,4,-0.5);
+if ($start2 == -2) {$ans2 = 0.4639;};
+if ($start2 == 4) {$ans2 = 5.35669;};
+if ($start2 == -0.5) {$ans2 = -0.31436;};
+
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+$PAR
+Sir Isaac Newton was the man.  There.  We've said it. $BR
+Of all of the glorious things that Newton did, the invention of Calculus was one of the most lasting and important contributions to modern society.  We could go on and on about how cool and applicable Calculus is, but in this problem we're going to focus on one amazing applicatoin of Calculus that didn't really show much popularity until the invention of the computer. $BR 
+$BCENTER 
+$BBOLD
+Newton's Method for Approximating Solutions to Algebraic Equations
+$EBOLD
+$ECENTER
+$PAR
+Let's say that we have an algebraic equation of the form \( 0 = f(x) \) where the function \(f(x)\) is at least twice differentiable (it has at least two derivatives).  Newton's method works like this: $BR
+1) Find the derivative of \( f(x) \).  (maybe by hand or maybe on the computer) $BR
+2) Pick an initial guess for a solution: \( x_0 \) $BR
+3) Write the equation of the tangent line to \( f(x) \) at the point \( ( x_0 \, , \, f(x_0) ) \): $BR
+$BCENTER
+\( y - f(x_0) = f'(x_0) \cdot (x-x_0) \) 
+$ECENTER
+$BR
+4)  Rearrange to solve for \( y \): $BR
+$BCENTER
+\( y = f(x_0) + f'(x_0) \cdot (x-x_0) \) 
+$ECENTER
+$BR
+5) Since the tangent line approximates the function we can find where it is equal to zero.  That is, set \( y=0\) and solve for \(x\).  ... I'll give you minute to do the algebra ... now check that you get $BR
+$BCENTER
+\( x = x_0 - \frac{f(x_0)}{f'(x_0)} \)
+$ECENTER
+$BR
+6) The new value of \(x\) might be a better approximation for the solution to the equation \( 0 = f(x) \), but we can make this into an iterative process by forming a sequence out of the previous step: $BR
+$BCENTER
+\( x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} \).
+$ECENTER
+Now you can write computer code to find a sequence of better and better approximations for the solution to the equation \( 0 = f(x) \).  
+
+
+$PAR
+$BBOLD Partial MATLAB Code for Newton's Method $EBOLD $BR
+In the following code we will solve the simple equation \( 0 = x^2 - 2 \). $PAR
+clear; clc; $BR
+f = @(x) x^2 - 2; $BR
+df = @(x) 2*x; $BR
+x(1) = 1; $PERCENT initial guess$BR
+tolerance = 0.001; $PERCENT how close should we get to the answer $BR
+n=1; $BR
+while abs(f(x(n))) > tolerance $BR
+... fill in the sequence for newton's method on this line ... $BR
+... hint: start with x(n+1) = $BR
+n=n+1; $BR
+end $BR
+x(end)$PAR
+
+Write your own version of the Newton's Method code in MATLAB and save it somewhere sensible. Test it on the equation above to make sure that it actually gives the correct solution.  $PAR
+$BBOLD Your Turn $EBOLD
+$PAR
+Use Newton's method to solve the following equations with the given starting points. $BR
+(a) Solve \( \sin(x) + 0.1 = 0 \) starting at \( x_0 = $start1\). \{ ans_rule(10) \} $BR
+(b) Solve \( \ln(x^2) - x + 2 = 0 \) starting at \( x_0 = $start2\). \{ ans_rule(10) \}
+
+
+END_TEXT
+BEGIN_HINT
+You will likely need a while loop and an if-then statement for this problem.
+END_HINT
+ANS(num_cmp($ans1,,tol=>0.001));
+ANS(num_cmp($ans2,,tol=>0.001));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

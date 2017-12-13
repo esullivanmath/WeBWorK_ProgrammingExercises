@@ -1,0 +1,97 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 5;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+@SumValues = (1000, 1012, 1026, 1031, 1054, 1068, 1078, 1088, 1102, 1110, 1128, 1134, 1144, 1150, 1164, 1178, 1190, 1196);
+
+$WhichSumValue = random(1,17,1);
+$N = $SumValues[$WhichSumValue];
+
+for ( $a = 1; $a <= $N; $a++) {
+  for ($b = 1; $b <= $N; $b++) {
+    $c = $N - $b - $a;
+    if ($c > 0) {
+      if ($a**2 + $b**2 == $c**2) {
+        $Product = $a * $b * $c;
+      }
+    }
+  }
+}
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+$BR
+A Pythagorean triple is a set of three natural numbers, \(a<b<c\), for which $BR
+\(a^2 + b^2 = c^2 \)
+$BR
+For example, \(a=3, b=4, c=5\) is a Pythagorean triple since \(3^2 + 4^2 = 9+16 = 25 = 5^2\).
+$PAR
+There exists exactly one Pythagorean triple for which \(a+b+c=$N\).  Write computer code (using MATLAB or any other programming language) to find the product \(abc\).
+
+$BR
+Product = \{ans_rule(15)\}
+$PAR
+
+
+END_TEXT
+ANS(num_cmp($Product,tol=>.5));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

@@ -1,0 +1,128 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+
+
+$N = random(500,700,1);
+$M1 = $N/2; 
+$M2 = floor($N/2);
+if ($M1 == $M2) {
+  $Nstart=$N+1;
+} else {
+    $Nstart=$N;
+}
+
+$N2 = random(32000,45000,1);
+$S = 0;
+for ( $j = $Nstart; $j <= $N2; $j+=2){
+  $S = $S + $j;
+}
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+Computers are very good at doing repetitive tasks again and again.  One way to do this is with a structure called a loop.  One type of loop Matlab can do is called  “for” loop, and we usually use it when we know in advance the number of times we want to go through the loop.  For example, suppose we create a new script in Matlab that says the following:
+$PAR
+x=5
+$BR
+for i=1:10
+$BR
+   x=x+2
+$BR
+end
+$BR
+x
+$PAR
+
+The loop begins with the "for i = 1:10" statement and ends with the "end" statement.  
+The command x = x + 2 is inside the loop, and so this statement runs ten times, as i counts up from 1 to 10.  The first time through this loop we will have i =1.  The command x = x + 2 takes the current value of x, adds 2 to it, and makes this the new value of x.  So we have x = 5 + 2 = 7.  The second time through the loop we will have i = 2, and x = 7 + 2 = 9.  This will continue until the last time through the loop we will have i = 10.  As a result, the command x=x+2 will run ten times, meaning that we start with 5 and add 2 ten times, and so in the end we find out that x = 25.
+
+$PAR
+Suppose we want to add up all the even numbers from 20 to 30:
+$PAR
+x=0
+$BR
+for i=20:2:30
+$BR
+   x=x+i
+$BR
+end
+$BR
+x
+$PAR
+
+We start with x = 0.  The first time through the loop we have i = 20, so x = 0 + 20 = 20.  The second time through the loop i is 2 more, and so we have i = 22.  As a result we have x = 20 + 22 = 42.  The third time through the loop, we have i = 24.  As a result we have x = 42 + 24 = 66.  This loop continues until we have added all the even numbers from 20 to 30.
+
+$PAR
+
+Now, you write a program in MATLAB to do the following:
+
+$PAR
+Find the sum of the odd numbers greater than or equal to $N and less than or equal to $N2.
+$BR
+Sum = \{ans_rule(15)\}
+$PAR
+
+
+END_TEXT
+ANS(num_cmp($S,tol=>.5));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

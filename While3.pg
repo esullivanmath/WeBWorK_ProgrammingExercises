@@ -1,0 +1,89 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+
+
+$N0 = random(60,95);
+$x = random(0.0001,0.0009,0.0001);
+
+$n = $N0;
+while (abs(50-$n) > $x){
+if($n > 100) {$n = $n/2}
+else {$n = $n + 50};
+}
+
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+Consider a mathematical process where we take a number, and if it is larger than 100, we divide it by two, while if it is equal to or smaller than 100, we add 50.  Then we do this process again and again.  For example if we start with 90, this is smaller than 100, so we add 50 to get 140.  Then because 140 is larger than 100, we divide this by 2, and get 70.  Then because 70 is smaller than 100 we add 50 to get 120.  Then because 120 is larger than 100, we divide this by 2 and get 60.  Then because 60 is less than 100 we add 50 and get 110.
+
+$PAR
+Write MATLAB program that starts with the number $N0 and follows this procedure.  Have your program continue this process until we have a number that is within $x of 50.  What number do we end up with?  In other words, if we continue this process, what is the first number that we get which is less than $x away from 50?
+$PAR
+\{ans_rule(15)\}
+$PAR
+
+
+END_TEXT
+ANS(num_cmp($n,tol=>$x/10));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

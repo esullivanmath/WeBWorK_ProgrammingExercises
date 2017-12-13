@@ -1,0 +1,199 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+
+
+$N = random(15000,17000,1);
+
+$M1 = 3; 
+$M2 = 5;
+if ($M1 == $M2) {
+  $Nstart=$N+1;
+} else {
+    $Nstart=$N;
+}
+
+$S = 0;
+for ( $j = 1; $j < $N; $j++) {
+  if ( $j/$M1 == floor($j/$M1) ) {
+       $S = $S + $j;
+  } elsif ( $j/$M2 == floor($j/$M2) ) {
+       $S = $S + $j;
+  } else {
+       $S = $S + 0;
+}
+}
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+$PAR
+In MATLAB we use an "if" statement to check if something is true.  For example, consider the following program:
+$PAR
+n = 5
+$BR
+if (n > 2)
+$BR
+n = n+6
+$BR
+end
+$BR
+n
+$PAR
+This program sets n to be 5, checks to see if n is greater than 2, and if so, adds 6 to n.  As a result at the end n is equal to 11.  Now consider this:
+
+$PAR
+n = 1
+$BR
+if (n > 2)
+$BR
+n = n+6
+$BR
+end
+$BR
+n
+$PAR
+In this program, the if statement finds that n is not greater than 2, and so and the end of the program n is still equal to 1.
+$PAR
+When we need an if statement to check whether or not two numbers are equal, we must use two equals signs:  ==   This is because a single equals sign (like when we say n = 1) makes a variable equal a certain number.  So, we can write code like the following:
+$PAR
+n = 7
+$BR
+for i = 1:5
+$BR
+if (i == 3)
+$BR
+n = n+i
+$BR
+end
+$BR
+end
+$BR
+n
+$PAR
+The for loop has i go through the numbers from 1 to 5.  When i is equal to 3, then we add i to n, and so at the end of the program, n = 10.
+$PAR
+We can check for a series of different things with the "elseif" command:
+$PAR
+n = 7
+$BR
+for i = 1:5
+$BR
+if (i == 3)
+$BR
+n = n+i
+$BR
+elseif (i == 4)
+$BR
+n = n + 2*i
+$BR
+end
+$BR
+end
+$BR
+n
+$PAR
+Here, we first check if i is equal to 3, and if it is, we add i to n.  If i is not equal to 3, then we check if it is equal to 4, and if so, we add 2*i to n.  As a result we end up with 7 + 3 + 2*4 = 18.
+$PAR
+Now, suppose we want to check whether a particular number is a multiple of 4.  To do this, we divide the number by 4, and see whether we get a whole number or if we have a decimal.  To test whether or not we have a whole number, we use a MATLAB function called "floor".  The floor function takes any number and rounds it down to the nearest whole number.  So, for example, floor(3) = 3, floor(3.2)=3, and floor(3.9) = 3.  We can check whether a particular number is a multiple of 4 by dividing our number by 4, then seeing if the floor function changes it.  If we get the same thing out of the floor function that we put in, then it must have been a whole number, and so we have a multiple of 4:  if( number/4 == floor(number/4) )
+$PAR
+As a result, we can add up all the multiples of 4, 5, or 6 between 1 and 9 with the following program:
+$PAR
+total = 0
+$BR
+for i = 1:9
+$BR
+if( i/4 == floor(i/4)  )
+$BR
+total = total + i
+$BR
+elseif( i/5 == floor(i/5)  )
+$BR
+total = total + i
+$BR
+elseif( i/6 == floor(i/6)  )
+$BR
+total = total + i
+$BR
+end
+$BR
+end
+$PAR
+This program adds up 4 + 5 + 6 + 8 to get 23.
+$PAR
+
+Here's the challenge:  If we list all of the natural numbers below 10 that are multiples of 3 or 5 we get \(3, 5, 6,\) and \(9\).  The sum of these multiples is 23.  
+$BR
+Write MATLAB program that will find the sum of all the multiples of 3 or 5 below $N.
+$BR
+Sum = \{ans_rule(15)\}
+$PAR
+
+
+END_TEXT
+BEGIN_HINT
+To solve this problem you will likely need a "for-loop" as well as an "if" statement to check that a number is a multiple of 3 or 5.
+$BR
+To check if a number \(k\) is a multiple of 3 we would check to see if \(k / 3\) is equal to \(floor(k/3)\).  
+END_HINT
+ANS(num_cmp($S,,tol=>.5));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        

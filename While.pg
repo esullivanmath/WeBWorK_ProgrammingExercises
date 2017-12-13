@@ -1,0 +1,93 @@
+##DESCRIPTION
+##  This problem is meant to have students write brief pieces of code to solve problems that have a specific numerical answer. 
+##ENDDESCRIPTION
+
+##KEYWORDS('programming', 'code')
+
+## DBsubject('Programming')
+## DBchapter('')
+## DBsection('')
+## Date('6/7/2016')
+## Author('')
+## Institution('')
+## TitleText1('')
+## EditionText1('')
+## AuthorText1('')
+## Section1('')
+## Problem1('')
+
+########################################################################
+
+DOCUMENT();     
+loadMacros(
+"PG.pl",
+"PGauxiliaryFunctions.pl",
+"PGbasicmacros.pl",
+"PGchoicemacros.pl",
+"MathObjects.pl",
+"problemRandomize.pl",
+"PGanswermacros.pl",
+"PGgraphmacros.pl",
+"PGnumericalmacros.pl",
+"PGstatisticsmacros.pl",
+"answerHints.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+# How many attempts before a hint?
+$showHint = 10;
+
+#Allow the student to generate a new (re-randomized) problem 
+#AFTER they have submitted a correct answer.
+ProblemRandomize(onlyAfterDue=>0);
+##############################################################
+
+ 
+
+
+
+
+$N = random(15000,17000,1);
+$per = random(1.1,4.9,.1);
+$x = random(1,25);
+
+$val = $N;
+
+while ($val > $x){
+$val = $val * (1-$per/100);
+}
+
+
+##############################################################
+#
+#  Text
+#
+#
+
+Context()->texStrings;
+BEGIN_TEXT
+If we start with the number 10,000, and reduce it by 2% we have 9,800.  If we reduce that by 2% we have 9,604.  If we reduce that by 2% we have 9,411.92.  Every time we reduce our number by 2%, it gets smaller and smaller, gradually approaching zero.
+$PAR
+Write MATLAB program that starts with the number $N, then reduces this number by $per% again and again until our result is below $x.  What number do we end up with?  In other words, if we continue reducing our number by $per% again and again, what is the first number that we get which is below $x?
+$PAR
+\{ans_rule(15)\}
+$PAR
+
+
+END_TEXT
+BEGIN_HINT
+To solve this problem you will likely need a "while-loop".
+$BR
+END_HINT
+ANS(num_cmp($val,tol=>.01));
+
+##############################################################
+#
+#  Answers
+#
+#
+
+
+
+ENDDOCUMENT();        
